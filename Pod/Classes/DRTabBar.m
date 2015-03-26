@@ -32,6 +32,7 @@
 {
     _tabBarItems = [NSMutableArray new];
     _tabBarItemConstraints = [NSMutableArray new];
+    self.clipsToBounds = YES;
 }
 
 #pragma mark - Tabs

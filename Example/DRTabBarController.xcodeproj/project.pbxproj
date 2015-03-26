@@ -23,7 +23,8 @@
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
-		63E452CA1AC3DCA70026670B /* tab-icon-info@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63E452C91AC3DCA70026670B /* tab-icon-info@3x.png */; };
+		636D136C1AC48612009FFF5D /* tab-icon-info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 636D136A1AC48612009FFF5D /* tab-icon-info@2x.png */; };
+		636D136D1AC48612009FFF5D /* tab-icon-info@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 636D136B1AC48612009FFF5D /* tab-icon-info@3x.png */; };
 		73F9195D93C5A0B828BA4FF4 /* libPods-Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 31890410F7AC2438FCA6382A /* libPods-Tests.a */; };
 /* End PBXBuildFile section */
 
@@ -64,7 +65,8 @@
 		6003F5B9195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
-		63E452C91AC3DCA70026670B /* tab-icon-info@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab-icon-info@3x.png"; sourceTree = "<group>"; };
+		636D136A1AC48612009FFF5D /* tab-icon-info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab-icon-info@2x.png"; sourceTree = "<group>"; };
+		636D136B1AC48612009FFF5D /* tab-icon-info@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab-icon-info@3x.png"; sourceTree = "<group>"; };
 		7CC6D02743991D5B9C21DA05 /* Pods-DRTabBarController.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DRTabBarController.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DRTabBarController/Pods-DRTabBarController.debug.xcconfig"; sourceTree = "<group>"; };
 		A64D2ADC1132F12A22314C46 /* DRTabBarController.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = DRTabBarController.podspec; path = ../DRTabBarController.podspec; sourceTree = "<group>"; };
 		E5303B30C879FDE5B4DB6BBD /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -134,13 +136,14 @@
 		6003F593195388D20070C39A /* DRTabBarController */ = {
 			isa = PBXGroup;
 			children = (
-				63E452C91AC3DCA70026670B /* tab-icon-info@3x.png */,
 				6003F59C195388D20070C39A /* DRAppDelegate.h */,
 				6003F59D195388D20070C39A /* DRAppDelegate.m */,
 				6003F59F195388D20070C39A /* Main_iPhone.storyboard */,
 				6003F5A2195388D20070C39A /* Main_iPad.storyboard */,
 				6003F5A5195388D20070C39A /* DRViewController.h */,
 				6003F5A6195388D20070C39A /* DRViewController.m */,
+				636D136A1AC48612009FFF5D /* tab-icon-info@2x.png */,
+				636D136B1AC48612009FFF5D /* tab-icon-info@3x.png */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
 			);
@@ -282,7 +285,8 @@
 				6003F5A4195388D20070C39A /* Main_iPad.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F5A1195388D20070C39A /* Main_iPhone.storyboard in Resources */,
-				63E452CA1AC3DCA70026670B /* tab-icon-info@3x.png in Resources */,
+				636D136C1AC48612009FFF5D /* tab-icon-info@2x.png in Resources */,
+				636D136D1AC48612009FFF5D /* tab-icon-info@3x.png in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -506,6 +510,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DRTabBarController/DRTabBarController-Prefix.pch";
 				INFOPLIST_FILE = "DRTabBarController/DRTabBarController-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -520,6 +525,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DRTabBarController/DRTabBarController-Prefix.pch";
 				INFOPLIST_FILE = "DRTabBarController/DRTabBarController-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

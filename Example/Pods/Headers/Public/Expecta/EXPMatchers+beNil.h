@@ -1,5 +1,1 @@
-#import "Expecta.h"
-
-EXPMatcherInterface(beNil, (void));
-
-#define beNull beNil
+../../../Expecta/Expecta/Matchers/EXPMatchers+beNil.h
