@@ -15,7 +15,7 @@ NSUInteger const kTabBarHeight = 49;
 @interface DRTabBarController ()
 
 @property (strong, nonatomic) NSArray *initialViewControllers;
-@property (strong, nonatomic) NSMutableArray *hierarchyConstraints;
+@property (strong, nonatomic) NSMutableArray *viewControllerConstraints;
 @property (strong, nonatomic) NSMutableArray *tabBarConstraints;
 
 @end
@@ -38,7 +38,7 @@ NSUInteger const kTabBarHeight = 49;
     _tabBarItems = [@[] mutableCopy];
     _selectedIndex = 0;
     _initialViewControllers = @[];
-    _hierarchyConstraints = [NSMutableArray new];
+    _viewControllerConstraints = [NSMutableArray new];
     _tabBarConstraints = [NSMutableArray new];
 }
 
@@ -97,8 +97,8 @@ NSUInteger const kTabBarHeight = 49;
 - (void)updateViewControllerConstraints
 {
     // Remove old constraints
-    [self.view removeConstraints:self.hierarchyConstraints];
-    [self.hierarchyConstraints removeAllObjects];
+    [self.view removeConstraints:self.viewControllerConstraints];
+    [self.viewControllerConstraints removeAllObjects];
     
     for (UIViewController *viewController in self.viewControllers) {
         
@@ -112,16 +112,16 @@ NSUInteger const kTabBarHeight = 49;
         NSDictionary *metrics = nil;
         
         // Create constraints
-        [self.hierarchyConstraints addObjectsFromArray:
+        [self.viewControllerConstraints addObjectsFromArray:
              [NSLayoutConstraint constraintsWithVisualFormat:
                 @"H:|[view]|" options:0 metrics:nil views:views]];
-        [self.hierarchyConstraints addObjectsFromArray:
+        [self.viewControllerConstraints addObjectsFromArray:
             [NSLayoutConstraint constraintsWithVisualFormat:
                 @"V:[tabBar][view]|" options:0 metrics:metrics views:views]];
     }
     
     // Add constraints
-    [self.view addConstraints:self.hierarchyConstraints];
+    [self.view addConstraints:self.viewControllerConstraints];
 }
 
 - (void)updateTabBarConstraints
