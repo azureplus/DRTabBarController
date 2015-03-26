@@ -2,17 +2,49 @@
 //  DRAppDelegate.m
 //  DRTabBarController
 //
-//  Created by CocoaPods on 03/26/2015.
+//  Created by CocoaPods on 03/19/2015.
 //  Copyright (c) 2014 David Runemalm. All rights reserved.
 //
 
 #import "DRAppDelegate.h"
+#import "DRTabBarController.h"
+#import "DRViewController.h"
 
 @implementation DRAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    // Get storyboard
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+    
+    // Create view controllers
+    self.firstViewController = [storyBoard instantiateViewControllerWithIdentifier:@"FirstView"];
+    self.firstViewController.title = @"First";
+    self.secondViewController = [storyBoard instantiateViewControllerWithIdentifier:@"SecondView"];
+    self.secondViewController.title = @"Second";
+    self.thirdViewController = [storyBoard instantiateViewControllerWithIdentifier:@"ThirdView"];
+    self.thirdViewController.title = @"Third";
+    
+    // Third tab has an icon
+    self.thirdViewController.drTabBarItem = [DRTabBarItem new];
+    self.thirdViewController.drTabBarItem.title = @"";
+    self.thirdViewController.drTabBarItem.image = [UIImage imageNamed:@"tab-icon-info"];
+    self.thirdViewController.drTabBarItem.selectedImage = [UIImage imageNamed:@"tab-icon-info"];
+    
+    // Create tab bar controller
+    DRTabBarController *tabBarController = [[DRTabBarController alloc]
+                                                    initWithViewControllers:@[self.firstViewController,
+                                                                              self.secondViewController,
+                                                                              self.thirdViewController]];
+    
+    // ..set selection indicator image
+    UIImage *selectionIndicatorImage = [[UIImage imageNamed:@"tab-selected.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)
+                                                                                                resizingMode:UIImageResizingModeStretch];
+    tabBarController.tabBarSelectionIndicatorImage = selectionIndicatorImage;
+
+    // Set as root view and make window visible
+    self.window.rootViewController = tabBarController;
+    [self.window makeKeyAndVisible];
     return YES;
 }
 							

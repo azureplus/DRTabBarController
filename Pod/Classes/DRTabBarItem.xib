@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DRTabBarItem">
+            <connections>
+                <outlet property="imageView" destination="XHc-A3-6MF" id="udo-2L-Hbn"/>
+                <outlet property="selectedImageView" destination="6Fi-BP-Z6D" id="BeX-lh-PzH"/>
+                <outlet property="selectedIndicatorImageView" destination="TVE-9R-l3L" id="eDd-Kr-7fl"/>
+                <outlet property="titleLabel" destination="LM8-bH-1Fp" id="Kx4-SD-tW3"/>
+                <outlet property="view" destination="iN0-l3-epB" id="fRL-ZJ-nf2"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="218" height="75"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TVE-9R-l3L">
+                    <rect key="frame" x="0.0" y="0.0" width="218" height="75"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6Fi-BP-Z6D">
+                    <rect key="frame" x="0.0" y="0.0" width="218" height="75"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XHc-A3-6MF">
+                    <rect key="frame" x="0.0" y="0.0" width="218" height="75"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LM8-bH-1Fp">
+                    <rect key="frame" x="0.0" y="0.0" width="218" height="75"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="XHc-A3-6MF" secondAttribute="bottom" id="367-Wl-Sac"/>
+                <constraint firstItem="LM8-bH-1Fp" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="3b1-xz-Ga0"/>
+                <constraint firstAttribute="bottom" secondItem="TVE-9R-l3L" secondAttribute="bottom" id="9ga-gz-HP1"/>
+                <constraint firstItem="6Fi-BP-Z6D" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="BMJ-Gg-4vl"/>
+                <constraint firstAttribute="trailing" secondItem="TVE-9R-l3L" secondAttribute="trailing" id="HOf-9u-K52"/>
+                <constraint firstItem="XHc-A3-6MF" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="M69-bn-xYX"/>
+                <constraint firstAttribute="bottom" secondItem="LM8-bH-1Fp" secondAttribute="bottom" id="Ocf-Y0-zfz"/>
+                <constraint firstItem="LM8-bH-1Fp" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Ra3-iz-s2d"/>
+                <constraint firstItem="6Fi-BP-Z6D" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="cOz-ko-sEI"/>
+                <constraint firstItem="TVE-9R-l3L" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="dNR-B2-UaB"/>
+                <constraint firstAttribute="bottom" secondItem="6Fi-BP-Z6D" secondAttribute="bottom" id="ejH-Jp-sVu"/>
+                <constraint firstItem="TVE-9R-l3L" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="gLF-DU-NpL"/>
+                <constraint firstItem="XHc-A3-6MF" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="jsA-Ob-l1v"/>
+                <constraint firstAttribute="trailing" secondItem="LM8-bH-1Fp" secondAttribute="trailing" id="l1q-Q6-Quo"/>
+                <constraint firstAttribute="trailing" secondItem="6Fi-BP-Z6D" secondAttribute="trailing" id="l6D-82-yVh"/>
+                <constraint firstAttribute="trailing" secondItem="XHc-A3-6MF" secondAttribute="trailing" id="y5j-fO-eLL"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-15" y="-146.5"/>
+        </view>
+    </objects>
+</document>
