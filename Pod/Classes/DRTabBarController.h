@@ -41,7 +41,6 @@
 @property (readonly, nonatomic) UIViewController *selectedViewController;
 @property (assign, nonatomic) NSUInteger selectedIndex;
 @property (strong, nonatomic) DRTabBar *tabBar;
-@property (strong, nonatomic) UIImage *tabBarSelectionIndicatorImage;
 
 - (id)initWithViewControllers:(NSArray *)viewControllers;
 - (void)setTabBarHidden:(BOOL)hidden animated:(BOOL)animated;

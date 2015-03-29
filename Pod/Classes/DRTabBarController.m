@@ -40,13 +40,16 @@ NSUInteger const kTabBarHeight = 49;
     _initialViewControllers = @[];
     _viewControllerConstraints = [NSMutableArray new];
     _tabBarConstraints = [NSMutableArray new];
+    
+    // Create subviews
+    [self createSubviews];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    // Create subviews
-    [self createSubviews];
+    // Add subviews
+    [self.view addSubview:self.tabBar];
     
     // Layout view controllers?
     if (self.initialViewControllers.count > 0) {
@@ -80,7 +83,6 @@ NSUInteger const kTabBarHeight = 49;
 - (void)createSubviews
 {
     self.tabBar = [self createTabBar];
-    [self.view addSubview:self.tabBar];
 }
 
 - (DRTabBar *)createTabBar
@@ -88,7 +90,6 @@ NSUInteger const kTabBarHeight = 49;
     DRTabBar *tabBar = [DRTabBar new];
     tabBar.backgroundColor = [UIColor clearColor];
     tabBar.tabBarController = self;
-    tabBar.selectionIndicatorImage = self.tabBarSelectionIndicatorImage;
     return tabBar;
 }
 

@@ -15,6 +15,7 @@
 @property (strong, nonatomic) NSMutableArray *tabBarItems;
 @property (assign, nonatomic) NSUInteger selectedIndex;
 @property (strong, nonatomic) UIImage *selectionIndicatorImage;
+@property (strong, nonatomic) UIImage *backgroundImage;
 
 - (void)addTabBarItem:(DRTabBarItem *)tabBarItem;
 - (void)didTapOnTab:(DRTabBarItem *)tab;

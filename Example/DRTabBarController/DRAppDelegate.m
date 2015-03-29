@@ -33,6 +33,70 @@
     
     // Create tab bar controller
     DRTabBarController *tabBarController = [[DRTabBarController alloc]
+                                                initWithViewControllers:@[self.firstViewController,
+                                                                          self.secondViewController,
+                                                                          self.thirdViewController]];
+    // ..set selection indicator image
+    UIImage *selectionIndicatorImage = [[UIImage imageNamed:@"tab-selected"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)
+                                                                                            resizingMode:UIImageResizingModeStretch];
+    tabBarController.tabBar.selectionIndicatorImage = selectionIndicatorImage;
+    
+    // ..set tab bar background image
+    UIImage *tabBarBackgroundImage = [UIImage imageNamed:@"tab-bar-background"];
+    tabBarController.tabBar.backgroundImage = tabBarBackgroundImage;
+    
+    // Create example view controller
+    UIViewController *exampleViewController = [UIViewController new];
+    [exampleViewController addChildViewController:tabBarController];
+    [exampleViewController.view addSubview:tabBarController.view];
+    [tabBarController didMoveToParentViewController:exampleViewController];
+    
+    // Create wrapped example view controller
+    UINavigationController *wrappedExampleViewController = [[UINavigationController alloc] initWithRootViewController:exampleViewController];
+    wrappedExampleViewController.title = @"Tabbed";
+    
+    // Create dummy view controller
+    UIViewController *dummyViewController = [UIViewController new];
+    dummyViewController.title = @"Dummy";
+    
+    // Create main tab view
+    UITabBarController *mainTabBarController = [[UITabBarController alloc] init];
+    [mainTabBarController setViewControllers:@[wrappedExampleViewController, dummyViewController]];
+    
+    
+    
+    NSLog(@"top layout guide: %@", mainTabBarController.topLayoutGuide);
+    
+    
+    
+    // Set as root view and make window visible
+    self.window.rootViewController = mainTabBarController;
+    [self.window makeKeyAndVisible];
+    return YES;
+    
+    
+    
+    /*
+    
+    // Get storyboard
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+    
+    // Create view controllers
+    self.firstViewController = [storyBoard instantiateViewControllerWithIdentifier:@"FirstView"];
+    self.firstViewController.title = @"First";
+    self.secondViewController = [storyBoard instantiateViewControllerWithIdentifier:@"SecondView"];
+    self.secondViewController.title = @"Second";
+    self.thirdViewController = [storyBoard instantiateViewControllerWithIdentifier:@"ThirdView"];
+    self.thirdViewController.title = @"Third";
+    
+    // Third tab has an icon
+    self.thirdViewController.drTabBarItem = [DRTabBarItem new];
+    self.thirdViewController.drTabBarItem.title = @"";
+    self.thirdViewController.drTabBarItem.image = [UIImage imageNamed:@"tab-icon-info"];
+    self.thirdViewController.drTabBarItem.selectedImage = [UIImage imageNamed:@"tab-icon-info"];
+    
+    // Create tab bar controller
+    DRTabBarController *tabBarController = [[DRTabBarController alloc]
                                                     initWithViewControllers:@[self.firstViewController,
                                                                               self.secondViewController,
                                                                               self.thirdViewController]];
@@ -45,7 +109,7 @@
     // Set as root view and make window visible
     self.window.rootViewController = tabBarController;
     [self.window makeKeyAndVisible];
-    return YES;
+    return YES;*/
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application

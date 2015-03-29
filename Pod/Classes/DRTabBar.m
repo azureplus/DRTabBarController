@@ -12,6 +12,8 @@
 @interface DRTabBar ()
 
 @property (strong, nonatomic) NSMutableArray *tabBarItemConstraints;
+@property (strong, nonatomic) NSMutableArray *viewConstraints;
+@property (strong, nonatomic) UIImageView *backgroundImageView;
 
 @end
 
@@ -32,7 +34,23 @@
 {
     _tabBarItems = [NSMutableArray new];
     _tabBarItemConstraints = [NSMutableArray new];
+    _viewConstraints = [NSMutableArray new];
     self.clipsToBounds = YES;
+    
+    // Create subviews
+    [self createSubviews];
+}
+
+#pragma mark - Subviews
+
+- (void)createSubviews
+{
+    // Background imageview
+    self.backgroundImageView = [UIImageView new];
+    self.backgroundImageView.image = self.backgroundImage;
+    self.backgroundImageView.contentMode = UIViewContentModeScaleToFill;
+    self.backgroundImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addSubview:self.backgroundImageView];
 }
 
 #pragma mark - Tabs
@@ -70,11 +88,39 @@
 {
     [super updateConstraints];
     
+    // Custom constraints
+    [self updateViewConstraints];
+    [self updateTabBarItemViewsConstraints];
+}
+
+- (void)updateViewConstraints
+{
+    // Remove existing constraints
+    [self removeConstraints:self.viewConstraints];
+    [self.viewConstraints removeAllObjects];
+    
+    // Create variable bindings
+    UIImageView *backgroundImageView = self.backgroundImageView;
+    NSDictionary *views = NSDictionaryOfVariableBindings(backgroundImageView);
+    NSDictionary *metrics = nil;
+    
+    // Create constraints
+    [self.viewConstraints addObjectsFromArray:
+        [NSLayoutConstraint constraintsWithVisualFormat:
+            @"H:|[backgroundImageView]|" options:0 metrics:metrics views:views]];
+    [self.viewConstraints addObjectsFromArray:
+        [NSLayoutConstraint constraintsWithVisualFormat:
+            @"V:|[backgroundImageView]|" options:0 metrics:metrics views:views]];
+    
+    // Add constraints
+    [self addConstraints:self.viewConstraints];
+}
+
+- (void)updateTabBarItemViewsConstraints
+{
     // Remove existing constraints
     [self removeConstraints:self.tabBarItemConstraints];
     [self.tabBarItemConstraints removeAllObjects];
-    
-    
     
     NSUInteger count = 0;
     NSNumber *width = @( round(CGRectGetWidth([UIScreen mainScreen].bounds) / (CGFloat)self.tabBarItems.count) );
@@ -116,6 +162,12 @@
     for (DRTabBarItem *tab in self.tabBarItems) {
         tab.selected = [self.tabBarItems indexOfObject:tab] == selectedIndex;
     }
+}
+
+- (void)setBackgroundImage:(UIImage *)backgroundImage
+{
+    _backgroundImage = backgroundImage;
+    self.backgroundImageView.image = backgroundImage;
 }
 
 @end
