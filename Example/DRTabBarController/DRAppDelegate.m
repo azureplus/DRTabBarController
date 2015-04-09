@@ -65,10 +65,6 @@
     
     
     
-    NSLog(@"top layout guide: %@", mainTabBarController.topLayoutGuide);
-    
-    
-    
     // Set as root view and make window visible
     self.window.rootViewController = mainTabBarController;
     [self.window makeKeyAndVisible];
@@ -104,7 +100,7 @@
     // ..set selection indicator image
     UIImage *selectionIndicatorImage = [[UIImage imageNamed:@"tab-selected.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)
                                                                                                 resizingMode:UIImageResizingModeStretch];
-    tabBarController.tabBarSelectionIndicatorImage = selectionIndicatorImage;
+    tabBarController.tabBar.selectionIndicatorImage = selectionIndicatorImage;
 
     // Set as root view and make window visible
     self.window.rootViewController = tabBarController;

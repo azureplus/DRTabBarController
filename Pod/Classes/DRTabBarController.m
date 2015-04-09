@@ -15,8 +15,12 @@ NSUInteger const kTabBarHeight = 49;
 @interface DRTabBarController ()
 
 @property (strong, nonatomic) NSArray *initialViewControllers;
-@property (strong, nonatomic) NSMutableArray *viewControllerConstraints;
+
 @property (strong, nonatomic) NSMutableArray *tabBarConstraints;
+@property (strong, nonatomic) NSMutableArray *transitionViewConstraints;
+@property (strong, nonatomic) NSMutableArray *selectedViewConstraints;
+@property (strong, nonatomic) NSMutableArray *viewHierarchyConstraints;
+@property (strong, nonatomic) UIView *transitionView;
 
 @end
 
@@ -38,8 +42,10 @@ NSUInteger const kTabBarHeight = 49;
     _tabBarItems = [@[] mutableCopy];
     _selectedIndex = 0;
     _initialViewControllers = @[];
-    _viewControllerConstraints = [NSMutableArray new];
     _tabBarConstraints = [NSMutableArray new];
+    _transitionViewConstraints = [NSMutableArray new];
+    _selectedViewConstraints = [NSMutableArray new];
+    _viewHierarchyConstraints = [NSMutableArray new];
     
     // Create subviews
     [self createSubviews];
@@ -49,7 +55,7 @@ NSUInteger const kTabBarHeight = 49;
     [super viewDidLoad];
 
     // Add subviews
-    [self.view addSubview:self.tabBar];
+    [self addSubviews];
     
     // Layout view controllers?
     if (self.initialViewControllers.count > 0) {
@@ -58,6 +64,9 @@ NSUInteger const kTabBarHeight = 49;
     
     // Init properties
     [self initProperties];
+    
+    // Trigger constraints update
+    [self.view setNeedsUpdateConstraints];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -75,64 +84,48 @@ NSUInteger const kTabBarHeight = 49;
 
 - (void)updateViewConstraints
 {
-    [super updateViewConstraints];
-    [self updateViewControllerConstraints];
     [self updateTabBarConstraints];
+    [self updateTransitionViewConstraints];
+    [self updateSelectedViewConstraints];
+    [self updateViewHierarchyConstraints];
+    [super updateViewConstraints];
 }
 
 - (void)createSubviews
 {
     self.tabBar = [self createTabBar];
+    self.transitionView = [self createTransitionView];
 }
 
 - (DRTabBar *)createTabBar
 {
     DRTabBar *tabBar = [DRTabBar new];
-    tabBar.backgroundColor = [UIColor clearColor];
+    tabBar.backgroundColor = [UIColor whiteColor];
     tabBar.tabBarController = self;
+    tabBar.translatesAutoresizingMaskIntoConstraints = NO;
     return tabBar;
 }
 
-#pragma mark - Layout
-
-- (void)updateViewControllerConstraints
+- (UIView *)createTransitionView
 {
-    // Remove old constraints
-    [self.view removeConstraints:self.viewControllerConstraints];
-    [self.viewControllerConstraints removeAllObjects];
-    
-    for (UIViewController *viewController in self.viewControllers) {
-        
-        // Disable autoresizing mask
-        viewController.view.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        // Create variable binding
-        UIView *tabBar = self.tabBar;
-        UIView *view = viewController.view;
-        NSDictionary *views = NSDictionaryOfVariableBindings(view, tabBar);
-        NSDictionary *metrics = nil;
-        
-        // Create constraints
-        [self.viewControllerConstraints addObjectsFromArray:
-             [NSLayoutConstraint constraintsWithVisualFormat:
-                @"H:|[view]|" options:0 metrics:nil views:views]];
-        [self.viewControllerConstraints addObjectsFromArray:
-            [NSLayoutConstraint constraintsWithVisualFormat:
-                @"V:[tabBar][view]|" options:0 metrics:metrics views:views]];
-    }
-    
-    // Add constraints
-    [self.view addConstraints:self.viewControllerConstraints];
+    UIView *transitionView = [UIView new];
+    transitionView.translatesAutoresizingMaskIntoConstraints = NO;
+    return transitionView;
 }
+
+- (void)addSubviews
+{
+    [self.view addSubview:self.tabBar];
+    [self.view addSubview:self.transitionView];
+}
+
+#pragma mark - Layout
 
 - (void)updateTabBarConstraints
 {
     // Remove old constraints
     [self.view removeConstraints:self.tabBarConstraints];
     self.tabBarConstraints = [NSMutableArray new];
-    
-    // Disable autoresizing mask
-    self.tabBar.translatesAutoresizingMaskIntoConstraints = NO;
     
     // Create variable binding
     UIView *tabBar = self.tabBar;
@@ -153,7 +146,74 @@ NSUInteger const kTabBarHeight = 49;
     [self.view addConstraints:self.tabBarConstraints];
 }
 
-#pragma mark - Tab Bar
+- (void)updateTransitionViewConstraints
+{
+    // Remove old constraints
+    [self.view removeConstraints:self.transitionViewConstraints];
+    self.transitionViewConstraints = [NSMutableArray new];
+    
+    // Create variable binding
+    UIView *transitionView = self.transitionView;
+    NSDictionary *views = NSDictionaryOfVariableBindings(transitionView);
+    NSDictionary *metrics = nil;
+    
+    // Create constraints
+    [self.transitionViewConstraints addObjectsFromArray:
+        [NSLayoutConstraint constraintsWithVisualFormat:
+            @"H:|[transitionView]|" options:0 metrics:nil views:views]];
+    [self.transitionViewConstraints addObjectsFromArray:
+        [NSLayoutConstraint constraintsWithVisualFormat:
+            @"V:[transitionView]|" options:0 metrics:metrics views:views]];
+    
+    // Add constraints
+    [self.view addConstraints:self.transitionViewConstraints];
+}
+
+- (void)updateSelectedViewConstraints
+{
+    // Remove old constraints
+    [self.view removeConstraints:self.selectedViewConstraints];
+    self.selectedViewConstraints = [NSMutableArray new];
+    
+    // Create variable binding
+    UIView *selectedView = self.selectedViewController.view;
+    NSDictionary *views = NSDictionaryOfVariableBindings(selectedView);
+    NSDictionary *metrics = nil;
+    
+    // Create constraints
+    [self.selectedViewConstraints addObjectsFromArray:
+        [NSLayoutConstraint constraintsWithVisualFormat:
+            @"H:|[selectedView]|" options:0 metrics:nil views:views]];
+    [self.selectedViewConstraints addObjectsFromArray:
+        [NSLayoutConstraint constraintsWithVisualFormat:
+            @"V:|[selectedView]|" options:0 metrics:metrics views:views]];
+    
+    // Add constraints
+    [self.view addConstraints:self.selectedViewConstraints];
+}
+
+- (void)updateViewHierarchyConstraints
+{
+    // Remove old constraints
+    [self.view removeConstraints:self.viewHierarchyConstraints];
+    [self.viewHierarchyConstraints removeAllObjects];
+    
+    // Create variable binding
+    UIView *tabBar = self.tabBar;
+    UIView *transitionView = self.transitionView;
+    NSDictionary *views = NSDictionaryOfVariableBindings(tabBar, transitionView);
+    NSDictionary *metrics = nil;
+    
+    // Create constraints
+    [self.viewHierarchyConstraints addObjectsFromArray:
+        [NSLayoutConstraint constraintsWithVisualFormat:
+            @"V:[tabBar][transitionView]" options:0 metrics:metrics views:views]];
+    
+    // Add constraints
+    [self.view addConstraints:self.viewHierarchyConstraints];
+}
+
+#pragma mark - Tab bar
 
 - (void)tabBarDidSelectTab:(DRTabBarItem *)tab atIndex:(NSUInteger)index
 {
@@ -163,7 +223,7 @@ NSUInteger const kTabBarHeight = 49;
     }
 }
 
-#pragma mark - View Controllers
+#pragma mark - View controllers
 
 - (void)addViewControllers:(NSArray *)viewControllers
 {
@@ -181,7 +241,7 @@ NSUInteger const kTabBarHeight = 49;
     
     // Add as child view controller
     [self addChildViewController:viewController];
-    [self.view addSubview:viewController.view];
+    //[self.view addSubview:viewController.view];
     [viewController didMoveToParentViewController:self];
     [_viewControllers addObject:viewController];
     
@@ -189,10 +249,10 @@ NSUInteger const kTabBarHeight = 49;
     if (!viewController.drTabBarItem) {
         DRTabBarItem *tabBarItem = [DRTabBarItem new];
         tabBarItem.title = viewController.title ? viewController.title : @"No title";
-        viewController.drTabBarItem = tabBarItem;
-        
-        // Set selection indicator image
         tabBarItem.selectedIndicatorImage = self.tabBar.selectionIndicatorImage;
+        
+        // .. add to view controller
+        viewController.drTabBarItem = tabBarItem;
     }
     viewController.drTabBarItem.viewController = viewController;
     [self.tabBar addTabBarItem:viewController.drTabBarItem];
@@ -243,75 +303,41 @@ NSUInteger const kTabBarHeight = 49;
 
 - (UIViewController *)selectedViewController
 {
-    for (UIViewController *viewController in self.viewControllers) {
-        if (!viewController.view.hidden) {
-            return viewController;
-        }
-    }
-    return nil;
+    return [self.viewControllers objectAtIndex:self.selectedIndex];
 }
 
 - (void)setViewControllers:(NSArray *)viewControllers
 {
     [self removeViewControllers:self.viewControllers];
     [self addViewControllers:viewControllers];
-    self.selectedIndex = 0;
-    [self.view setNeedsLayout];
-    [self.view layoutIfNeeded];
+    
+    if(viewControllers.count > 0) {
+        self.selectedIndex = 0;
+    } else {
+        // TODO: Remove current view controller..
+    }
 }
 
 - (void)setSelectedIndex:(NSUInteger)selectedIndex
 {
+    UIViewController *previousViewController = self.selectedViewController;
+    UIViewController *selectedViewController = [self.viewControllers objectAtIndex:selectedIndex];
+    
+    // Disable auto-resizing mask
+    selectedViewController.view.translatesAutoresizingMaskIntoConstraints = NO;
+    
     _selectedIndex = selectedIndex;
     
-    // Show view controller corresponding to index
-    NSUInteger count = 0;
-    for (UIViewController<DRTabBarControllerChild> *viewController in self.viewControllers) {
+    if(self.isViewLoaded) {
+        [previousViewController.view removeFromSuperview];
         
-        BOOL shouldHide = count != selectedIndex && !viewController.view.hidden;
-        BOOL shouldShow = count == selectedIndex && viewController.view.hidden;
+        [self.transitionView addSubview:selectedViewController.view];
         
-        // Notify?
-        if (shouldHide) {
-            [viewController viewWillDisappear:YES];
-            if ([viewController respondsToSelector:@selector(willEndBeeingSelectedViewController)]) {
-                [viewController willEndBeeingSelectedViewController];
-            }
-        } else if (shouldShow) {
-            [viewController viewWillAppear:YES];
-            if ([viewController respondsToSelector:@selector(willBecomeSelectedViewController)]) {
-                [viewController willBecomeSelectedViewController];
-            }
-        }
-        
-        // Hide / Show
-        if (shouldHide) {
-            viewController.view.hidden = YES;
-        } else if (shouldShow) {
-            viewController.view.hidden = NO;
-        }
-        
-        // Notify?
-        if (shouldHide) {
-            [viewController viewDidDisappear:YES];
-            if ([viewController respondsToSelector:@selector(didEndBeeingSelectedViewController)]) {
-                [viewController didEndBeeingSelectedViewController];
-            }
-        } else if (shouldShow) {
-            [viewController viewDidAppear:YES];
-            if ([viewController respondsToSelector:@selector(didBecomeSelectedViewController)]) {
-                [viewController didBecomeSelectedViewController];
-            }
-        }
-        
-        count++;
+        [self.view setNeedsUpdateConstraints];
     }
     
     // Tell tab bar to select tab
     self.tabBar.selectedIndex = selectedIndex;
-    
-    // Make sure tab bar is on top
-    [self.view bringSubviewToFront:self.tabBar];
 }
 
 @end
