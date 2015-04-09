@@ -303,7 +303,10 @@ NSUInteger const kTabBarHeight = 49;
 
 - (UIViewController *)selectedViewController
 {
-    return [self.viewControllers objectAtIndex:self.selectedIndex];
+    if (self.viewControllers.count > self.selectedIndex) {
+        return [self.viewControllers objectAtIndex:self.selectedIndex];
+    }
+    return nil;
 }
 
 - (void)setViewControllers:(NSArray *)viewControllers
@@ -320,24 +323,25 @@ NSUInteger const kTabBarHeight = 49;
 
 - (void)setSelectedIndex:(NSUInteger)selectedIndex
 {
-    UIViewController *previousViewController = self.selectedViewController;
-    UIViewController *selectedViewController = [self.viewControllers objectAtIndex:selectedIndex];
-    
-    // Disable auto-resizing mask
-    selectedViewController.view.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    _selectedIndex = selectedIndex;
-    
     if(self.isViewLoaded) {
+        
+        UIViewController *previousViewController = self.selectedViewController;
+        UIViewController *selectedViewController = [self.viewControllers objectAtIndex:selectedIndex];
+        
+        // Disable auto-resizing mask
+        selectedViewController.view.translatesAutoresizingMaskIntoConstraints = NO;
+        
         [previousViewController.view removeFromSuperview];
         
         [self.transitionView addSubview:selectedViewController.view];
         
         [self.view setNeedsUpdateConstraints];
+        
+        // Tell tab bar to select tab
+        self.tabBar.selectedIndex = selectedIndex;
     }
     
-    // Tell tab bar to select tab
-    self.tabBar.selectedIndex = selectedIndex;
+    _selectedIndex = selectedIndex;
 }
 
 @end

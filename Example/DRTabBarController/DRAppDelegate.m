@@ -54,7 +54,8 @@
     // Create wrapped example view controller
     UINavigationController *wrappedExampleViewController = [[UINavigationController alloc] initWithRootViewController:exampleViewController];
     wrappedExampleViewController.title = @"Tabbed";
-    
+    wrappedExampleViewController.navigationBar.translucent = NO;
+
     // Create dummy view controller
     UIViewController *dummyViewController = [UIViewController new];
     dummyViewController.title = @"Dummy";
@@ -62,8 +63,6 @@
     // Create main tab view
     UITabBarController *mainTabBarController = [[UITabBarController alloc] init];
     [mainTabBarController setViewControllers:@[wrappedExampleViewController, dummyViewController]];
-    
-    
     
     // Set as root view and make window visible
     self.window.rootViewController = mainTabBarController;
