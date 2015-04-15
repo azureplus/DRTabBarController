@@ -78,6 +78,7 @@ NSUInteger const kTabBarHeight = 49;
 {
     // Set background color
     self.view.backgroundColor = [UIColor whiteColor];
+    self.isTabBarHidden = NO;
 }
 
 #pragma mark - Subviews
@@ -130,7 +131,7 @@ NSUInteger const kTabBarHeight = 49;
     // Create variable binding
     UIView *tabBar = self.tabBar;
     id topLayoutGuide = self.topLayoutGuide;
-    NSNumber *height = self.viewControllers.count > 1 ? @(kTabBarHeight) : @(0);
+    NSNumber *height = self.viewControllers.count > 1 && !self.isTabBarHidden ? @(kTabBarHeight) : @(0);
     NSDictionary *views = NSDictionaryOfVariableBindings(tabBar, topLayoutGuide);
     NSDictionary *metrics = NSDictionaryOfVariableBindings(height);
     
@@ -140,7 +141,15 @@ NSUInteger const kTabBarHeight = 49;
             @"H:|[tabBar]|" options:0 metrics:nil views:views]];
     [self.tabBarConstraints addObjectsFromArray:
         [NSLayoutConstraint constraintsWithVisualFormat:
-            @"V:[topLayoutGuide][tabBar(height)]" options:0 metrics:metrics views:views]];
+            @"V:[topLayoutGuide][tabBar]" options:0 metrics:metrics views:views]];
+    self.tabBarHeightConstraint = [NSLayoutConstraint constraintWithItem:self.tabBar
+                                                               attribute:NSLayoutAttributeHeight
+                                                               relatedBy:NSLayoutRelationEqual
+                                                                  toItem:nil
+                                                               attribute:NSLayoutAttributeNotAnAttribute
+                                                              multiplier:1.0
+                                                                constant:kTabBarHeight];
+    [self.tabBarConstraints addObject:self.tabBarHeightConstraint];
     
     // Add constraints
     [self.view addConstraints:self.tabBarConstraints];
@@ -282,7 +291,22 @@ NSUInteger const kTabBarHeight = 49;
 
 - (void)setTabBarHidden:(BOOL)hidden animated:(BOOL)animated
 {
-    // TODO: ..
+    [self setIsTabBarHidden:hidden withAnimation:animated];
+}
+
+- (void)setIsTabBarHidden:(BOOL)isTabBarHidden withAnimation:(BOOL)animation
+{
+    _isTabBarHidden = isTabBarHidden;
+    
+    self.tabBarHeightConstraint.constant = !isTabBarHidden ? kTabBarHeight : 0;
+    
+    if (animation) {
+        [UIView animateWithDuration:0.2 animations:^{
+            [self.view layoutIfNeeded];
+        }];
+    } else {
+        [self.view layoutIfNeeded];
+    }
 }
 
 - (void)removeTabBarItems
@@ -300,6 +324,11 @@ NSUInteger const kTabBarHeight = 49;
 }
 
 #pragma mark - Properties
+
+- (void)setIsTabBarHidden:(BOOL)isTabBarHidden
+{
+    [self setIsTabBarHidden:isTabBarHidden withAnimation:NO];
+}
 
 - (UIViewController *)selectedViewController
 {

@@ -41,6 +41,8 @@
 @property (readonly, nonatomic) UIViewController *selectedViewController;
 @property (assign, nonatomic) NSUInteger selectedIndex;
 @property (strong, nonatomic) DRTabBar *tabBar;
+@property (assign, nonatomic) BOOL isTabBarHidden;
+@property (strong, nonatomic) NSLayoutConstraint *tabBarHeightConstraint;
 
 - (id)initWithViewControllers:(NSArray *)viewControllers;
 - (void)setTabBarHidden:(BOOL)hidden animated:(BOOL)animated;
