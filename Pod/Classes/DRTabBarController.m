@@ -131,9 +131,8 @@ NSUInteger const kTabBarHeight = 49;
     // Create variable binding
     UIView *tabBar = self.tabBar;
     id topLayoutGuide = self.topLayoutGuide;
-    NSNumber *height = self.viewControllers.count > 1 && !self.isTabBarHidden ? @(kTabBarHeight) : @(0);
+    CGFloat height = self.viewControllers.count > 1 && !self.isTabBarHidden ? kTabBarHeight : 0;
     NSDictionary *views = NSDictionaryOfVariableBindings(tabBar, topLayoutGuide);
-    NSDictionary *metrics = NSDictionaryOfVariableBindings(height);
     
     // Create constraints
     [self.tabBarConstraints addObjectsFromArray:
@@ -141,14 +140,14 @@ NSUInteger const kTabBarHeight = 49;
             @"H:|[tabBar]|" options:0 metrics:nil views:views]];
     [self.tabBarConstraints addObjectsFromArray:
         [NSLayoutConstraint constraintsWithVisualFormat:
-            @"V:[topLayoutGuide][tabBar]" options:0 metrics:metrics views:views]];
+            @"V:[topLayoutGuide][tabBar]" options:0 metrics:nil views:views]];
     self.tabBarHeightConstraint = [NSLayoutConstraint constraintWithItem:self.tabBar
                                                                attribute:NSLayoutAttributeHeight
                                                                relatedBy:NSLayoutRelationEqual
                                                                   toItem:nil
                                                                attribute:NSLayoutAttributeNotAnAttribute
                                                               multiplier:1.0
-                                                                constant:kTabBarHeight];
+                                                                constant:height];
     [self.tabBarConstraints addObject:self.tabBarHeightConstraint];
     
     // Add constraints
