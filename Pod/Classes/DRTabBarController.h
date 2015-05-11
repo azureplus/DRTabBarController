@@ -38,7 +38,7 @@
 @property (assign, nonatomic) id<DRTabBarControllerDelegate> delegate;
 @property (strong, nonatomic) NSMutableArray *tabBarItems;
 @property (strong, nonatomic) NSMutableArray *viewControllers;
-@property (readonly, nonatomic) UIViewController *selectedViewController;
+@property (readonly, nonatomic) UIViewController<DRTabBarControllerChild> *selectedViewController;
 @property (assign, nonatomic) NSUInteger selectedIndex;
 @property (strong, nonatomic) DRTabBar *tabBar;
 @property (assign, nonatomic) BOOL isTabBarHidden;
