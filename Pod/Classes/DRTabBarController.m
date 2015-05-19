@@ -361,15 +361,15 @@ NSUInteger const kTabBarHeight = 49;
         // Disable auto-resizing mask
         selectedViewController.view.translatesAutoresizingMaskIntoConstraints = NO;
         
+        // Switch transition view's subview
         [previousViewController.view removeFromSuperview];
-        
         [self.transitionView addSubview:selectedViewController.view];
         
         // Notify controllers
         if ([previousViewController respondsToSelector:@selector(didEndBeeingSelectedViewController)]) {
             [previousViewController didEndBeeingSelectedViewController];
         }
-        if ([selectedViewController respondsToSelector:@selector(didEndBeeingSelectedViewController)]) {
+        if ([selectedViewController respondsToSelector:@selector(didBecomeSelectedViewController)]) {
             [selectedViewController didBecomeSelectedViewController];
         }
         
