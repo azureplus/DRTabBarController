@@ -190,15 +190,17 @@ NSUInteger const kTabBarHeight = 49;
     NSDictionary *metrics = nil;
     
     // Create constraints
-    [self.selectedViewConstraints addObjectsFromArray:
-        [NSLayoutConstraint constraintsWithVisualFormat:
-            @"H:|[selectedView]|" options:0 metrics:nil views:views]];
-    [self.selectedViewConstraints addObjectsFromArray:
-        [NSLayoutConstraint constraintsWithVisualFormat:
-            @"V:|[selectedView]|" options:0 metrics:metrics views:views]];
+    if (selectedView && selectedView.superview) {
+        [self.selectedViewConstraints addObjectsFromArray:
+            [NSLayoutConstraint constraintsWithVisualFormat:
+                @"H:|[selectedView]|" options:0 metrics:nil views:views]];
+        [self.selectedViewConstraints addObjectsFromArray:
+            [NSLayoutConstraint constraintsWithVisualFormat:
+                @"V:|[selectedView]|" options:0 metrics:metrics views:views]];
     
-    // Add constraints
-    [self.view addConstraints:self.selectedViewConstraints];
+        // Add constraints
+        [self.view addConstraints:self.selectedViewConstraints];
+    }
 }
 
 - (void)updateViewHierarchyConstraints
