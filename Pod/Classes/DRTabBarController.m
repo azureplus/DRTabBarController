@@ -26,17 +26,35 @@ NSUInteger const kTabBarHeight = 49;
 
 @implementation DRTabBarController
 
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        [self drCommonInit];
+    }
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        [self drCommonInit];
+    }
+    return self;
+}
+
 - (id)initWithViewControllers:(NSArray *)viewControllers
 {
     self = [super init];
     if (self) {
-        [self commonInit];
+        [self drCommonInit];
         self.initialViewControllers = viewControllers;
     }
     return self;
 }
 
-- (void)commonInit
+- (void)drCommonInit
 {
     _viewControllers = [@[] mutableCopy];
     _tabBarItems = [@[] mutableCopy];
@@ -48,7 +66,7 @@ NSUInteger const kTabBarHeight = 49;
     _viewHierarchyConstraints = [NSMutableArray new];
     
     // Create subviews
-    [self createSubviews];
+    [self drCreateSubviews];
 }
 
 - (void)viewDidLoad {
@@ -63,18 +81,10 @@ NSUInteger const kTabBarHeight = 49;
     }
     
     // Init properties
-    [self initProperties];
-    
-    // Trigger constraints update
-    [self.view setNeedsUpdateConstraints];
+    [self drInitProperties];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)initProperties
+- (void)drInitProperties
 {
     // Set background color
     self.view.backgroundColor = [UIColor whiteColor];
@@ -92,7 +102,7 @@ NSUInteger const kTabBarHeight = 49;
     [super updateViewConstraints];
 }
 
-- (void)createSubviews
+- (void)drCreateSubviews
 {
     self.tabBar = [self createTabBar];
     self.transitionView = [self createTransitionView];
@@ -184,13 +194,14 @@ NSUInteger const kTabBarHeight = 49;
     [self.view removeConstraints:self.selectedViewConstraints];
     self.selectedViewConstraints = [NSMutableArray new];
     
-    // Create variable binding
-    UIView *selectedView = self.selectedViewController.view;
-    NSDictionary *views = NSDictionaryOfVariableBindings(selectedView);
-    NSDictionary *metrics = nil;
-    
     // Create constraints
+    UIView *selectedView = self.selectedViewController.view;
     if (selectedView && selectedView.superview) {
+        
+        // Create variable bindings
+        NSDictionary *views = NSDictionaryOfVariableBindings(selectedView);
+        NSDictionary *metrics = nil;
+        
         [self.selectedViewConstraints addObjectsFromArray:
             [NSLayoutConstraint constraintsWithVisualFormat:
                 @"H:|[selectedView]|" options:0 metrics:nil views:views]];

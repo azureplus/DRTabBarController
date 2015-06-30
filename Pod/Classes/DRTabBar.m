@@ -66,13 +66,16 @@
 
     // Set selection indicator image
     tabBarItem.selectedIndicatorImage = self.selectionIndicatorImage;
+    tabBarItem.translatesAutoresizingMaskIntoConstraints = NO;
     
     // Add to collection
     [self.tabBarItems addObject:tabBarItem];
     
     // Add to view hierarchy
     [self addSubview:tabBarItem];
-    tabBarItem.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    // Trigger contraints update
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)didTapOnTab:(UITapGestureRecognizer *)tapGestureRecognizer
